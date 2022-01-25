@@ -82,7 +82,7 @@ class RunSpider():
             }
 
             if self.initials_spider_name == "MJ":
-                self.data['start_urls'] = self.get_data_from_sheets_domains('start_urls',row)
+                self.data['start_urls'] = self.get_data_from_sheets_domains('start_url',row)
                 self.data["sheet_emails"] = self.sheet_emails
             else:
                 self.data["sheet_links"] = self.sheet_links
