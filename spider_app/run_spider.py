@@ -18,8 +18,8 @@ class RunSpider():
         self.spider_name = "".join(["peter_parker_external_links" if self.initials_spider_name == "PP" else "mary_jane_emails"])
 
         #load external .json files with sensitive data
-        self.ref_spreadsheets = json.load(open(getenv('REF_SPREADSHEETS','spider_app/resources/spreadsheets_reference.json')))
-        self.spider_list = json.load(open(getenv('SPIDER_LIST','spider_app/resources/spider_list.json')))
+        self.ref_spreadsheets = json.loads(getenv('REF_SPREADSHEETS','spider_app/resources/spreadsheets_reference.json'))
+        self.spider_list = json.loads(getenv('SPIDER_LIST','spider_app/resources/spider_list.json'))
 
         #get spreadsheet ID and campaign name
         self.spreadsheet_id = self.get_spread_info("id_sheet")
