@@ -47,7 +47,9 @@ class RunSpider():
         if os.path.isfile('spider_app/resources/avian-sunlight-332621-74eb679c388d.json'):
             with open('spider_app/resources/avian-sunlight-332621-74eb679c388d.json') as f:
                 local_key_file = json.loads(f.read())
-
+        else:
+            local_key_file = ""
+            
         creds = ServiceAccountCredentials.from_json_keyfile_dict(getenv('GSPREAD_KEY',local_key_file), scope)
         return gspread.authorize(creds)
 
