@@ -19,8 +19,12 @@ class RunSpider():
         self.spider_name = "".join(["peter_parker_external_links" if self.initials_spider_name == "PP" else "mary_jane_emails"])
 
         #load external .json files with sensitive data
-        self.ref_spreadsheets = json.loads(getenv('REF_SPREADSHEETS','spider_app/resources/spreadsheets_reference.json'))
-        self.spider_list = json.loads(getenv('SPIDER_LIST','spider_app/resources/spider_list.json'))
+        if os.path.isfile('spider_app/resources/avian-sunlight-332621-74eb679c388d.json'):
+            self.spider_list = json.load(open('spider_app/resources/spider_list.json'))
+            self.ref_spreadsheets = json.load(open('spider_app/resources/spreadsheets_reference.json'))
+        else:
+            self.ref_spreadsheets = json.loads(getenv('REF_SPREADSHEETS'))
+            self.spider_list = json.loads(getenv('SPIDER_LIST'))
 
         #get spreadsheet ID and campaign name
         self.spreadsheet_id = self.get_spread_info("id_sheet")
@@ -46,7 +50,7 @@ class RunSpider():
 
         if os.path.isfile('spider_app/resources/avian-sunlight-332621-74eb679c388d.json'):
             with open('spider_app/resources/avian-sunlight-332621-74eb679c388d.json') as f:
-                local_key_file = json.loads(f.read())
+                local_key_file = f.read()
         else:
             local_key_file = ""
 
@@ -68,18 +72,20 @@ class RunSpider():
             self.data = {
                 'project': self.project,
                 "raw_domain": self.get_data_from_sheets_domains('domain',row),
-                'start_urls': self.get_data_from_sheets_domains('start_url',row),
                 'spider': self.spider_name,
                 "dest_spread": self.spreadsheet_id,
                 "sheet_links": self.sheet_links,
                 "sheet_domains": self.sheet_domains_name,
-                "sheet_emails": self.sheet_emails,
                 "count_brands": self.brand_links_max,
                 "count_networks": self.network_links_max,
                 "count_results": self.all_links_max,
                 "campaign_name" : self.campaign_name,
             }
-            print(self.data)
+
+            if self.initials_spider_name == "MJ":
+                self.data['start_urls'] = self.get_data_from_sheets_domains('domain',row)
+                self.data["sheet_emails"] = self.sheet_emails
+
             url = 'https://app.scrapinghub.com/api/run.json?apikey='+ str(self.apikey)
             headers = {
                     'Content-Type': 'application/x-www-form-urlencoded',
