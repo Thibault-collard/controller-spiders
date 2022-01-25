@@ -49,8 +49,8 @@ class RunSpider():
                 local_key_file = json.loads(f.read())
         else:
             local_key_file = ""
-            
-        creds = ServiceAccountCredentials.from_json_keyfile_dict(getenv('GSPREAD_KEY',local_key_file), scope)
+
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(json.loads(getenv('GSPREAD_KEY',local_key_file)), scope)
         return gspread.authorize(creds)
 
     def get_spider_info(self,info):
