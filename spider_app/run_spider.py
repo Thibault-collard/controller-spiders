@@ -42,7 +42,10 @@ class RunSpider():
          #init gspread authorization
         scope = ['https://spreadsheets.google.com/feeds',
                 'https://www.googleapis.com/auth/drive']
-        local_key_file = json.loads('spider_app/resources/avian-sunlight-332621-74eb679c388d.json')
+
+        with open('spider_app/resources/avian-sunlight-332621-74eb679c388d.json', 'r') as j:
+            local_key_file = json.loads(j.read())
+            
         creds = ServiceAccountCredentials.from_json_keyfile_dict(getenv('GSPREAD_KEY',local_key_file), scope)
         return gspread.authorize(creds)
 
