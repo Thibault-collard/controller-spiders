@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
 # Configure Django App for Heroku.
 import django_heroku
 from pathlib import Path
@@ -25,7 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = os.environ['SECRET_KEY'] or getenv('SECRET_KEY')
+if os.environ['SECRET_KEY']:
+    SECRET_KEY = os.environ['SECRET_KEY']
+else:
+    SECRET_KEY = getenv('SECRET_KEY')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
