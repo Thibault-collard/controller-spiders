@@ -1,0 +1,95 @@
+{% load static %}
+<div class="container">
+    <head>
+        <link rel="stylesheet" href="{% static 'css/form.css' %}">
+    </head>
+    <form action="/" method="POST" target = "_blank">
+        {% csrf_token %}
+        {% for error in form.non_field_errors %}
+            <p class="text-danger">{{ error }}</p>
+        {% endfor %}
+        <div class="row">
+            
+            <div class="input-group input-group-icon">
+                <div class="input-group">
+                            
+                    {% for error in form.name_spread.errors %}
+                        <p class="text-danger">{{ error | escape }}</p>
+                    {% endfor %}
+                    <div class="col-half">
+                        <h4>Spreadsheet Domains : </h4>
+                        <select name="name_spread" style="width: 98%; height: 50px">
+                            <option value="Awin_pub" > Awin_pub </option>
+                            <option value="Prospection_apollo_12012022"> Prospection_apollo_12012022 </option>
+                        </select>
+                        
+                    </div>
+                    
+                    <div class="col-half">
+                        <h4> Spider Name : </h4>
+                        <input id="gender-male" type="radio" name="spider_name" value="MJ"/><label for="gender-male">MJ</label><input id="gender-female" type="radio" name="spider_name" value="PP"/><label for="gender-female">PP</label>
+                            {% for error in form.spider_name.errors %}
+                                <p class="text-danger">{{ error | escape }}</p>
+                            {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group input-group-icon">
+                <div class="input-group">
+                    <div class="col-half">
+                    <h4> Rows to scrape:</h4>
+                        <div class="input-group">
+                            <div class="col-third"><input type="text" placeholder="Start" name="start_row" /></div>
+                                
+                            <div class="col-third"><input type="text" placeholder="End" name="end_row" /></div>
+                            {% for error_start_row in form.start_row.errors %}
+                                {% for error_end_row in form.end_row.errors %}
+                                    {% if error_start_row %} 
+                                        <p class="text-danger">{{ error_start_row | escape }}
+                                    {% elif error_end_row %} 
+                                        <p class="text-danger">{{ error_end_row | escape }}
+                                        </p>
+                                    {% endif%}
+                                    </p>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                        
+                    </div>
+                    <div class="col-half">
+                        <h4> Mode : </h4>
+                        <div class="input-group"><input class="mode" id="payment-method-card" type="radio" name="mode" value="Prod" /><label for="payment-method-card"><span><i class="fa fa-cc-visa"></i>Prod</span></label><input id="payment-method-paypal" type="radio" name="mode" value="Test" /><label for="payment-method-paypal"> <span>Test</span></label></div>
+                            {% for error in form.mode.errors %}
+                                <p class="text-danger">{{ error | escape }}</p>
+                            {% endfor %}
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group">
+                <div class="col-half">
+                    <h4> Scraping limits : </h4>
+                    <div class="input-group">
+                        <input class="max-rs" type="text" placeholder="brand" name="brand_max" />
+                        {% for error_brand_max in form.brand_max.errors %}
+                            <p class="text-danger">{{ error_brand_max | escape }}</p>
+                        {% endfor %}
+                        <input class="max-rs" type="text" placeholder="network" name="network_max" />
+                        {% for error_network_max in form.network_max.errors %}
+                        <p class="text-danger">{{ error_network_max | escape }}</p>
+                        {% endfor %}
+                        <input class="max-rs" type="text" placeholder="result" name="result_max" />
+                        {% for error_result_max in form.result_max.errors %}
+                            <p class="text-danger">{{ error_result_max | escape }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="Start spider">
+    </form>
+</div>
+<!DOCTYPE html>
