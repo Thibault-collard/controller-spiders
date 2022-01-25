@@ -74,7 +74,6 @@ class RunSpider():
                 "raw_domain": self.get_data_from_sheets_domains('domain',row),
                 'spider': self.spider_name,
                 "dest_spread": self.spreadsheet_id,
-                "sheet_links": self.sheet_links,
                 "sheet_domains": self.sheet_domains_name,
                 "count_brands": self.brand_links_max,
                 "count_networks": self.network_links_max,
@@ -83,8 +82,10 @@ class RunSpider():
             }
 
             if self.initials_spider_name == "MJ":
-                self.data['start_urls'] = self.get_data_from_sheets_domains('domain',row)
+                self.data['start_urls'] = self.get_data_from_sheets_domains('start_urls',row)
                 self.data["sheet_emails"] = self.sheet_emails
+            else:
+                self.data["sheet_links"] = self.sheet_links
 
             url = 'https://app.scrapinghub.com/api/run.json?apikey='+ str(self.apikey)
             headers = {
