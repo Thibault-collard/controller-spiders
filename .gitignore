@@ -1,1 +1,2 @@
-spider_app/resources/
+spider_app/resources
+.env
