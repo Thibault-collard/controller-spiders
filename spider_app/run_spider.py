@@ -2,7 +2,7 @@ import requests
 import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-
+from os import getenv
 class RunSpider():
     def __init__(self,form) -> None:
         #init value from the input form
@@ -18,8 +18,8 @@ class RunSpider():
         self.spider_name = "".join(["peter_parker_external_links" if self.initials_spider_name == "PP" else "mary_jane_emails"])
 
         #load external .json files with sensitive data
-        self.ref_spreadsheets = json.load(open('spider_app/resources/spreadsheets_reference.json'))
-        self.spider_list = json.load(open('spider_app/resources/spider_list.json'))
+        self.ref_spreadsheets = (json.load(open('spider_app/resources/spreadsheets_reference.json'))|json.loads(open(getenv('REF_SPREADSHEETS'))))
+        self.spider_list = (json.load(open('spider_app/resources/spider_list.json'))|json.loads(open(getenv('SPIDER_LIST'))))
 
         #get spreadsheet ID and campaign name
         self.spreadsheet_id = self.get_spread_info("id_sheet")
@@ -42,7 +42,7 @@ class RunSpider():
          #init gspread authorization
         scope = ['https://spreadsheets.google.com/feeds',
                 'https://www.googleapis.com/auth/drive']
-        creds = ServiceAccountCredentials.from_json_keyfile_name("spider_app/resources/avian-sunlight-332621-74eb679c388d.json", scope)
+        creds = (ServiceAccountCredentials.from_json_keyfile_name("spider_app/resources/avian-sunlight-332621-74eb679c388d.json", scope))|(ServiceAccountCredentials.from_json_keyfile_name(getenv('GSPREAD_KEY'), scope))
         return gspread.authorize(creds)
 
     def get_spider_info(self,info):
