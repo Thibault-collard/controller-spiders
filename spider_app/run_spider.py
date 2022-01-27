@@ -77,7 +77,7 @@ class RunSpider():
                 "sheet_domains": self.sheet_domains_name,
                 "count_brands": self.brand_links_max,
                 "count_networks": self.network_links_max,
-                "count_results": self.all_links_max,
+                "count_global": self.all_links_max,
                 "campaign_name" : self.campaign_name,
             }
 
